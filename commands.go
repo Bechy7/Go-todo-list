@@ -15,6 +15,14 @@ func addTask(args []string) {
 		title += a + " "
 	}
 
+	//Prevent duplicate tasks
+	for _, t := range tasks {
+		if t.Title == title {
+			fmt.Println("Task already exists:", title)
+			return
+		}
+	}
+
 	tasks = append(tasks, Task{Title: title, Done: false})
 	fmt.Println("Added task:", title)
 }
