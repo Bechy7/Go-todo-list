@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func addTask(args []string) {
 	if len(args) == 0 {
-		fmt.Println("Please provide a task title.")
+		fmt.Println("Provide a task title.")
 		return
 	}
 
@@ -48,12 +49,24 @@ func listTasks() {
 		return
 	}
 
+	sort.Slice(tasks, func(i, j int) bool {
+		return !tasks[i].Done && tasks[j].Done
+	})
+
 	for i, t := range tasks {
-		status := " "
+		status := "X"
+		reset := "\033[0m"
+		//Red
+		color := "\033[31m"
+
 		if t.Done {
 			status = "✓"
+			//Green
+			color = "\033[32m"
+
 		}
-		fmt.Printf("%d. [%s] %s\n", i, status, t.Title)
+
+		fmt.Printf("%d. %s%s%s %s\n", i, color, status, reset, t.Title)
 	}
 }
 
